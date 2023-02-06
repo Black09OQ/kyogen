@@ -4,16 +4,20 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using TMPro;
 
 public class AndroidDirectoryManager : MonoBehaviour
 {
-    public string Directory_path;
-    [SerializeField] TextMeshProUGUI tmpConsole;
-    public string date;
+    public string Directory_path;                   // 読み込むアセットのfile以下のパス
+
+    [SerializeField] TextMeshProUGUI tmpConsole;    // コンソール用テキストオブジェクト
+
+
+    public string date;                             // テスト用
     
-
-
+    public CharactorManager charactorManager;       // 文字表示用クラス
+    
     void Update()
     {
 
@@ -40,10 +44,11 @@ public class AndroidDirectoryManager : MonoBehaviour
         Writer.Close();
     }
 
-    public GameObject Score_Load(string assetNum)
+
+    public AssetBundle Score_Load(int assetNum)
     {
         // アセットバンドル読み込み
-        var myLoadedAssetBundle = AssetBundle.LoadFromFile(Application.persistentDataPath + "/" + Directory_path + "/" + "videoplane"+assetNum);
+        var myLoadedAssetBundle = AssetBundle.LoadFromFile(Application.persistentDataPath + "/" + Directory_path + "/" + "videoplane"+ assetNum.ToString());
         if (myLoadedAssetBundle == null)
         {
             tmpConsole.SetText("Failed to load AssetBundle!");
@@ -51,11 +56,10 @@ public class AndroidDirectoryManager : MonoBehaviour
             return null;
         }
 
+        return myLoadedAssetBundle;
 
-        // アセットバンドル内の動画オブジェクト取得
-        var prefab = myLoadedAssetBundle.LoadAsset<GameObject>("VideoPlane");
 
-        return prefab;
+
 
         /*
         //データの取得
@@ -66,4 +70,5 @@ public class AndroidDirectoryManager : MonoBehaviour
         Debug.Log(json);
         */
     }
+
 }

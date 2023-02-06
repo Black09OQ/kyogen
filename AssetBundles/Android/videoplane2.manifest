@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 424499862
+CRC: 4227868994
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1fdb5ad389b5b3444acf9b0fcfe5bc77
+    Hash: 64779920d01dd47f4380783221fb436d
   TypeTreeHash:
     serializedVersion: 2
     Hash: 20178130257324abcef306a25c22b722
@@ -31,5 +31,5 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/Prefabs/VideoPlane.prefab
+- Assets/Prefabs/VideoPlane2.prefab
 Dependencies: []
