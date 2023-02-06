@@ -108,6 +108,8 @@ public class SpawnManager : MonoBehaviour
         // 動画再生
         videoPlayer.Play();
 
+        _videoPlane.SetActive(true);
+
         // 文字セット
         charactorManager.SetCharactor(beaconNum);
 
