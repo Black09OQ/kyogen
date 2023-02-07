@@ -5,37 +5,43 @@ using TMPro;
 
 public class SetBeaconNum : MonoBehaviour
 {
-    public int beaconNum;
+    private int debugNum;
     public TextMeshProUGUI tmpBNum;
-    [SerializeField] SpawnManager spawnManager;
+    public CharactorManager charactorManager;
+    public Move move;
 
     void Start()
     {
-        beaconNum = 0;
+        debugNum = 0;
     }
 
     public void numPlus()
     {
-        if(beaconNum >= 0 && beaconNum < 14)
+        if(debugNum >= 0 && debugNum < 13)
         {
-            beaconNum += 1;
+            debugNum += 1;
         }
         
-        tmpBNum.SetText(beaconNum.ToString());
+        tmpBNum.SetText(debugNum.ToString());
     }
 
     public void numMinus()
     {
-        if(beaconNum > 0 && beaconNum <=14)
+        if(debugNum > 0 && debugNum <=13)
         {
-            beaconNum -= 1;
+            debugNum -= 1;
         }
 
-        tmpBNum.SetText(beaconNum.ToString());
+        tmpBNum.SetText(debugNum.ToString());
     }
 
     public void SpawnWithNum()
     {
-        spawnManager.SpawnVideo(beaconNum);
+        move.OnMove(debugNum);
+    }
+
+    public void SpawnFromBeacon(int beaconNum)
+    {
+        move.OnMove(beaconNum);
     }
 }

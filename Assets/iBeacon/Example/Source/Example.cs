@@ -493,7 +493,7 @@ internal class Example : MonoBehaviour {
 			// adding reference to instance
 			go_FoundBeaconCloneList.Add(go_FoundBeaconClone);
 			// get textcomponents
-			Text[]Texts	= go_FoundBeaconClone.GetComponentsInChildren<Text>();
+			Text[] Texts	= go_FoundBeaconClone.GetComponentsInChildren<Text>();
 			// deleting placeholder
 			foreach (Text t in Texts)
 				t.text = "";
