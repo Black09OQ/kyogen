@@ -5,15 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public enum BroadcastMode {
-	send	= 0,
-	receive	= 1,
-	unknown = 2
-}
-public enum BroadcastState {
-	inactive = 0,
-	active	 = 1
-}
 
 internal class Example : MonoBehaviour {
 	[SerializeField]
@@ -108,6 +99,9 @@ internal class Example : MonoBehaviour {
 	private float f_ScrollViewContentRectHeight;
 	private int i_BeaconCounter = 0;
 
+	// 動画生成用
+	public SetBeaconNum setBeaconNum;
+
 	// Receive
 	private List<Beacon> mybeacons = new List<Beacon>();
 
@@ -173,7 +167,7 @@ internal class Example : MonoBehaviour {
 	}
 
 	private void setBeaconPropertiesAtStart() {
-		RestorePlayerPrefs();
+		//RestorePlayerPrefs();
 		if (bm_Mode == BroadcastMode.unknown) { // first start
 			bm_Mode = BroadcastMode.receive;
 			bt_Type = BeaconType.iBeacon;
@@ -301,28 +295,6 @@ internal class Example : MonoBehaviour {
 			txt_actualMinor.gameObject.SetActive(true);
 			txt_actualMinor.text		= s_Minor;
 			set_iBeaconText();
-		} else if (bt_Type == BeaconType.EddystoneUID) {
-			txt_actualUUIDChar.gameObject.SetActive(true);
-			txt_actualUUIDChar.text		= "actual Namespace:";
-			txt_actualUUID.gameObject.SetActive(true);
-			txt_actualUUID.text			= s_UUID;
-			txt_actualMajorChar.gameObject.SetActive(true);
-			txt_actualMajorChar.text	= "actual Instance";
-			txt_actualMajor.gameObject.SetActive(true);
-			txt_actualMajor.text		= s_Major;
-			txt_actualMinorChar.gameObject.SetActive(false);
-			txt_actualMinor.gameObject.SetActive(false);
-			set_EddyUIDText();
-		} else if (bt_Type == BeaconType.EddystoneURL) {
-			txt_actualUUIDChar.gameObject.SetActive(true);
-			txt_actualUUIDChar.text		= "actual Url:";
-			txt_actualUUID.gameObject.SetActive(true);
-			txt_actualUUID.text			= s_UUID;
-			txt_actualMajorChar.gameObject.SetActive(false);
-			txt_actualMajor.gameObject.SetActive(false);
-			txt_actualMinorChar.gameObject.SetActive(false);
-			txt_actualMinor.gameObject.SetActive(false);
-			set_EddyUrlText();
 		} else { // any
 			txt_actualUUIDChar.gameObject.SetActive(false);
 			txt_actualUUID.gameObject.SetActive(false);
@@ -514,6 +486,11 @@ internal class Example : MonoBehaviour {
 				Texts[11].text	= b.accuracy.ToString().Substring(0,10) + " m";
 				Texts[12].text 	= "Rssi:";
 				Texts[13].text	= b.rssi.ToString() + " db";
+
+				if(b.range.ToString() == "IMMEDIATE"){
+					setBeaconNum.SpawnFromBeacon(b.major);
+				}
+
 				break;
 			case BeaconType.EddystoneUID:
 				Texts[0].text 	= "Namespace:";
@@ -555,13 +532,15 @@ internal class Example : MonoBehaviour {
 
 	// PlayerPrefs
 	private void SavePlayerPrefs() {
+		
 		PlayerPrefs.SetInt("Type", (int)bt_Type);
 		PlayerPrefs.SetString("Region", s_Region);
 		PlayerPrefs.SetString("UUID", s_UUID);
 		PlayerPrefs.SetString("Major", s_Major);
 		PlayerPrefs.SetString("Minor", s_Minor);
 		PlayerPrefs.SetInt("BroadcastMode", (int)bm_Mode);
-		//PlayerPrefs.DeleteAll();
+		
+		// PlayerPrefs.DeleteAll();
 	}
 	private void RestorePlayerPrefs() {
 		if (PlayerPrefs.HasKey("Type"))
