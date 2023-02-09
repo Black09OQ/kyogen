@@ -60,7 +60,7 @@ public class iBeaconReceiver : MonoBehaviour {
 			return m_instance._detectionTimespan;
 		}
 		set {
-			m_instance._detectionTimespan = value;
+			m_instance._detectionTimespan =value;
 #if UNITY_ANDROID
 			initialized = false;
 #endif

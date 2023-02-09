@@ -43,33 +43,13 @@ internal class BeaconManager: MonoBehaviour {
 
 	/** Input **/
 	// beacontype
-	[SerializeField]
-	private Dropdown InputDropdown;
 	private BeaconType bt_PendingType;
 	private BeaconType bt_Type;
 	// Region
-	[SerializeField]
-	private InputField input_Region;
 	// UUID, Namespace or Url
-	[SerializeField]
-	private Text txt_inputUUIDChar;
-	[SerializeField]
-	private InputField input_UUID;
 	// Major/Minor or Instance
-	[SerializeField]
-	private Text txt_inputMajorChar;
-	[SerializeField]
-	private InputField input_Major;
-	[SerializeField]
-	private Text txt_inputMinorChar;
-	[SerializeField]
-	private InputField input_Minor;
 
 	// Beacon BroadcastMode (Send, Receive)
-	[SerializeField]
-	private Text txt_BroadcastMode_ButtonText;
-	[SerializeField]
-	private Text txt_BroadcastMode_LabelText;
 	private BroadcastMode bm_Mode;
 
 	// Beacon BroadcastState (Start, Stop)
@@ -169,13 +149,13 @@ internal class BeaconManager: MonoBehaviour {
         bt_Type = BeaconType.iBeacon;
         if (iBeaconReceiver.regions.Length != 0) {
             Debug.Log("check iBeaconReceiver-inspector");
-            for(int i = 0; i < 2; i++)
+            for(int i = 0; i < iBeaconReceiver.regions.Length; i++)
             {
                 beaconProperties[i] = new BeaconProperty();
                 beaconProperties[i].sRegion = iBeaconReceiver.regions[i].regionName;
                 beaconProperties[i].sUUID = iBeaconReceiver.regions[i].beacon.UUID;
-                beaconProperties[i].sMajor = iBeaconReceiver.regions[0].beacon.major.ToString();
-                beaconProperties[i].sMinor = iBeaconReceiver.regions[0].beacon.minor.ToString();
+                beaconProperties[i].sMajor = iBeaconReceiver.regions[i].beacon.major.ToString();
+                beaconProperties[i].sMinor = iBeaconReceiver.regions[i].beacon.minor.ToString();
             }
             /*
             s_Region	= iBeaconReceiver.regions[0].regionName;
@@ -185,7 +165,6 @@ internal class BeaconManager: MonoBehaviour {
             */
         }
 		
-		InputDropdown.value = (int)bt_Type;
 		bs_State = BroadcastState.inactive;
 		SetBroadcastState();
 		Debug.Log("Beacon properties and modes restored");
@@ -201,7 +180,7 @@ internal class BeaconManager: MonoBehaviour {
 	}
 
     public void btn_StartStop() {
-		//Debug.Log("Button Start / Stop pressed");
+		// Debug.Log("Button Start / Stop pressed");
 		/*** Beacon will start ***/
 		if (bs_State == BroadcastState.inactive) {
 			// ReceiveMode
@@ -256,8 +235,18 @@ internal class BeaconManager: MonoBehaviour {
 
     private void DisplayOnBeaconFound() {
 		removeFoundBeacons();
+		
+
+
+		
 		RectTransform rt_Content = (RectTransform)go_ScrollViewContent.transform;
 		foreach (Beacon b in mybeacons) {
+
+			// ビーコンの距離が"IMMEDIATE"の場合、対応する動画を再生
+			// "NEAR"に変更可能
+			if(b.range.ToString() == "IMMEDIATE"){
+			setBeaconNum.SpawnFromBeacon(b.major);
+			}
 			// create clone of foundBeacons
 			go_FoundBeaconClone = Instantiate(go_FoundBeacon);
 			// make it child of the ScrollView
@@ -301,9 +290,7 @@ internal class BeaconManager: MonoBehaviour {
 				Texts[12].text 	= "Rssi:";
 				Texts[13].text	= b.rssi.ToString() + " db";
 
-				if(b.range.ToString() == "IMMEDIATE"){
-					setBeaconNum.SpawnFromBeacon(b.major);
-				}
+
 
 				break;
 			default:

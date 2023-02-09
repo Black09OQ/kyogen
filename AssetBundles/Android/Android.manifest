@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2069144152
+CRC: 1127641565
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -16,4 +16,25 @@ AssetBundleManifest:
       Dependencies: {}
     Info_4:
       Name: videoplane3
+      Dependencies: {}
+    Info_5:
+      Name: videoplane4
+      Dependencies: {}
+    Info_6:
+      Name: videoplane5
+      Dependencies: {}
+    Info_7:
+      Name: videoplane6
+      Dependencies: {}
+    Info_8:
+      Name: videoplane7
+      Dependencies: {}
+    Info_9:
+      Name: videoplane8
+      Dependencies: {}
+    Info_10:
+      Name: videoplane9
+      Dependencies: {}
+    Info_11:
+      Name: videoplane10
       Dependencies: {}
